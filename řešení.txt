@@ -1,0 +1,18 @@
+Ox, Oy - souřadnicové osy
+w[] - pole vodičů
+r(w[0]) = poloměr vodiče w[0]
+
+0) Nápady na řešení
+	a) Geometricky - začít od největšího vodiče (intuitivně) a nabalovat menší. Implementovat potřebné metody založené na analytické geometrii.
+	b) Nějaká optimalizační metoda, která obecně dokáže minimalizovat funkci (poloměr kabelu) na základě různých pravidel (vzdálenosti středů vodičů...). Implementovat vlastní (asi mnohem náročnější než a) ) nebo použít knihovnu.
+	
+Zvolil jsem geometrický přístup.
+	
+1) Uspořádat vodiče sestupně podle průřezu a vytvořit pole w[].
+2) Střed w[0] umístit do (0,0). Střed kružnice opsané v (0,0), poloměr r(w[0]).
+3) Střed w[1] posunout na Ox do (r(w[0]) + r(w[1]), 0). Střed kružnice opsané v ( (2r(w[0]) + 2r(w[1]) ) / 2 , 0).
+4) Třetí umístit "mezi" první dvě, tak aby se obou dotýkala. Použijeme cosinovou větu pro výpočet úhlu, který svírá spojnice středu 1. a 2. kružnice se spojnicí středu 1. a 3.
+5) Pomocí úhlu a délky spojnice 1. a 3. (délka spojnice r(w[0]) + r(w[2]) ) určíme souřadnice třetího bodu (jako průměty spojnice 1. a 3. do Ox, Oy + souřadnice první).
+6) Bod 5) poskytne 2 řešení y souřadnice. V případě konstrukce 3. kružnice nevznikne problém, ale při konstrukci dalších by nám kružnice mohla protínat ostatní. Zkontrolujeme vhodné řešení, které splňuje podmínku: 
+	Vzdálenost středu nově konstruované kružnice od středů všech ostatních, musí být větší nebo rovna součtu poloměru nové kružnice s poloměrem jiné kružnice.
+7) Body 4), 5) a 6) budeme provádět pro všechny již vypočtené dvojice a budeme k ní hledat třetí bod pro umístění středu nové kružnice. Musíme předtím určit, jestli se do zadaného místa vejde - bod 6) a pokud ano, vypočteme pro dané uspořádání střed kružnice opsané a poloměr - z těchto možností vybereme to řešení, kterému odpovídá nejmenší poloměr opsané kružnice. -- Zde prostor k optimalizaci - nepočítat vše, ale vybírat jen vhodné kužnice a z nich pak počítat dále.
